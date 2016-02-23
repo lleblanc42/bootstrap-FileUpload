@@ -21,7 +21,7 @@ Point to the plugin in the HTML in either the head or just before the ending bod
 
 Make sure to include the CSS for the plugin!
 
-```css
+```html
 <link rel="stylesheet" type="text/css" href="bootstrap-FileUpload.min.css" />
 ```
 
@@ -74,6 +74,8 @@ Make sure to change the url option to point to the web page that will properly p
 | onUploadSuccess | Calls when the file was uploaded successfully |
 | onUploadComplete | Calls when the plugin has completed processing of all of the files |
 | onUploadReset | Calls when the file list is reset |
+
+_Callbacks have not been tested as of yet, please note feature release plans_
 
 ## Examples
 _(Coming soon)_
