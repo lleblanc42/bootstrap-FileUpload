@@ -1,0 +1,78 @@
+#fileupload-wrapper .fileupload-add {
+	position: relative;
+	overflow: hidden;
+}
+#fileupload-wrapper .fileupload-add::-webkit-file-upload-button { visibility: hidden; }
+	#fileupload-wrapper .fileupload-add input[type=file] {
+		position: absolute;
+			top: 0;
+			right: 0;
+		min-width: 100%;
+		min-height: 100%;
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		cursor: pointer;
+		filter: alpha(opacity=0);
+	    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+	    -moz-opacity: 0;
+	    -webkit-opacity: 0;
+	    opacity: 0;
+	    outline: none;
+	    background: none;
+	    z-index: 1;
+	}
+	#fileupload-wrapper .fileupload-add input[readonly] {
+		background-color: #FFF !important;
+		cursor: text !important;
+	}
+
+#fileupload-wrapper .fileupload-fallback-add {
+	position: relative;
+	overflow: hidden;
+}
+#fileupload-wrapper .fileupload-fallback-add::-webkit-file-upload-button { visibility: hidden; }
+	#fileupload-wrapper .fileupload-fallback-add input[type=file] {
+		position: absolute;
+			top: 0;
+			right: 0;
+		min-width: 100%;
+		min-height: 100%;
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		cursor: pointer;
+		filter: alpha(opacity=0);
+	    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+	    -moz-opacity: 0;
+	    -webkit-opacity: 0;
+	    opacity: 0;
+	    outline: none;
+	    background: none;
+	    z-index: 1;
+	}
+	#fileupload-wrapper .fileupload-fallback-add input[readonly] {
+		background-color: #FFF !important;
+		cursor: text !important;
+	}
+
+#fileupload-wrapper .btn { margin-right: 10px; }
+#fileupload-wrapper .btn:last-child { margin-right: 0; }
+
+#fileupload-wrapper .fileupload-overall-progress,
+#fileupload-wrapper .fileupload-start,
+#fileupload-wrapper .fileupload-cancel,
+#fileupload-wrapper .fileupload-reset,
+#fileupload-wrapper .fileupload-previewrow .alert,
+#fileupload-wrapper .fileupload-overall-status,
+#fileupload-wrapper .fileupload-overall-status .alert { display: none; }
+
+#fileupload-wrapper .fileupload-overall-progress { padding-top: 6px; }
+
+#fileupload-wrapper .fileupload-preview {
+	display: none;
+	margin-top: 1em;
+}
+
+#fileupload-wrapper .fileupload-previewrow.thumb {}
+#fileupload-wrapper .fileupload-previewrow.no-thumb {}
