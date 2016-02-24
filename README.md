@@ -92,6 +92,7 @@ _(Coming soon)_
 - [ ] Limit what's accepted for file types
 - [ ] Check if the file uploaded is a file or graphic to regulate whether or not it gets a thumbnail or an icon
 - [ ] Include a set of file type icons
+- [ ] Include proper QUnit testing
 
 ## Release History
 First official release! v0.1.0
