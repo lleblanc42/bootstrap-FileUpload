@@ -22,5 +22,11 @@
   "dependencies": {
     "jquery": "*"
   },
-  "keywords": []
+  "keywords": [
+    "bootstrap",
+    "jquery",
+    "file",
+    "upload",
+    "fileupload"
+  ]
 }

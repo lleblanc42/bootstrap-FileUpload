@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         tasks: ['jshint:test', 'qunit']
       },
     },
-	cssmin: {
+	  cssmin: {
       target: {
         files: [{
           expand: true,
