@@ -1,4 +1,4 @@
-/*! Bootstrap FileUpload - v0.1.0 - 2016-02-23
+/*! Bootstrap FileUpload - v0.1.0 - 2016-02-24
 * https://github.com/lleblanc42/bootstrap-FileUpload
 * Copyright (c) 2016 Luke LeBlanc; Licensed GPL-3.0 */
 ;(function ($, document, window) {
@@ -205,7 +205,7 @@
 
 					$("#" + key + " .fileupload-progress .progress-bar-striped").fadeIn("slow", "linear");
 
-					var xhrRequest = $.ajax({
+					$.ajax({
 						url: options.url,
 						type: options.formMethod,
 						data: formData,
@@ -265,7 +265,7 @@
 
 				$.each(arrayFiles, function(key, value) { formData.append(options.inputName + "[]", value); });
 
-				var xhrRequest = $.ajax({
+				$.ajax({
 					url: options.url,
 					type: options.formMethod,
 					data: formData,

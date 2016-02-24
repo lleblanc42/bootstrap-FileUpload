@@ -42,7 +42,7 @@ module.exports = function(grunt) {
         src: 'Gruntfile.js'
       },
       src: {
-        src: ['src/**/*.js']
+        src: ['src/<%= pkg.name %>.js']
       },
     },
     watch: {
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
         tasks: ['jshint:src', 'qunit']
       },
       test: {
-        files: '<%= jshint.test.src %>',
+        files: 'test/<%= pkg.name %>.js',
         tasks: ['jshint:test', 'qunit']
       },
     },

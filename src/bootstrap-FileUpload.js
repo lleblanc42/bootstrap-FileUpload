@@ -222,7 +222,7 @@
 
 					$("#" + key + " .fileupload-progress .progress-bar-striped").fadeIn("slow", "linear");
 
-					var xhrRequest = $.ajax({
+					$.ajax({
 						url: options.url,
 						type: options.formMethod,
 						data: formData,
@@ -282,7 +282,7 @@
 
 				$.each(arrayFiles, function(key, value) { formData.append(options.inputName + "[]", value); });
 
-				var xhrRequest = $.ajax({
+				$.ajax({
 					url: options.url,
 					type: options.formMethod,
 					data: formData,

@@ -1,6 +1,16 @@
 {
   "name": "bootstrap-FileUpload",
   "version": "0.1.0",
+  "licenses": [
+    {
+      "type": "GPL-3.0",
+      "url": "https://github.com/lleblanc42/bootstrap-FileUpload/blob/master/LICENSE-GPL-3.0"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lleblanc42/bootstrap-FileUpload.git"
+  },
   "engines": {
     "node": ">= 0.8.0"
   },
