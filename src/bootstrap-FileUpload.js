@@ -18,7 +18,7 @@
  * GNU General Public License for more details.
  */
 
-;(function ($, document, window, undefined) {
+;(function ($, document, window) {
 	'use strict';
 
 	$.fn.bootstrapFileUpload = function(opts) {
@@ -38,7 +38,6 @@
 			thumbWidth: 80,
 			thumbHeight: 80,
 			fileTypes: null,
-			debug: 'verbose',
 			onInit: function() {},
 			onFileAdded: function() {},
 			onFileRemoved: function() {},
@@ -57,45 +56,6 @@
 
 		var init = function(el) {
 			wrapper = $('#' + el);
-
-			if (options.debug !== false && options.debug !== 'console' && options.debug !== 'verbose') {
-				debugMode("debug");
-
-				return;
-			}
-
-			if (typeof $().emulateTransitionEnd !== 'function') {
-				if (options.debug) {
-					debugMode("bootstrap");
-				}
-
-				return;
-			}
-
-			if (options.url === null || !isUrlValid(options.url)) {
-				if (options.debug) {
-					debugMode("url");
-				}
-
-				return;
-			}
-
-			if (options.formMethod !== 'post' && options.formMethod !== 'get') {
-				if (options.debug) {
-					debugMode("formMethod");
-				}
-
-				return;
-			}
-
-			if (options.fallbackUrl !== null && !isUrlValid(options.fallbackUrl)) {
-				if (options.debug) {
-					debugMode("fallbackUrl");
-				}
-
-				return;
-			}
-			
 
 			if (testBrowser && options.forceFallback === false) {
 				formData = new FormData();
@@ -245,7 +205,10 @@
 		};
 
 		var uploadStart = function() {
-			$(".fileupload-add, .fileupload-start, .fileupload-cancel, .fileupload-remove").attr("disabled", "disabled");
+			$(".fileupload-add").attr("disabled", "disabled");
+			$(".fileupload-start").attr("disabled", "disabled");
+			$(".fileupload-cancel").attr("disabled", "disabled");
+			$(".fileupload-remove").attr("disabled", "disabled");
 
 			if (options.hiddenInput) {
 				$.each(options.hiddenInput, function(key, value) {
@@ -306,8 +269,8 @@
 								});
 							}
 
-							return myXhr;
-						}
+				            return myXhr;
+				        }
 					});
 
 					if (typeof options.onUploadProgress === 'function') {
@@ -371,8 +334,8 @@
 							});
 						}
 
-						return myXhr;
-					}
+				        return myXhr;
+				    }
 				});
 			}
 
@@ -382,7 +345,7 @@
 			btnReset.delay(600).fadeIn("slow", "linear");
 
             if (typeof options.onUploadComplete === 'function') {
-				options.onUploadComplete.call();
+            	options.onUploadComplete.call();
             }
 		};
 
@@ -419,7 +382,9 @@
 			btnCancel.fadeOut("slow", "linear");
 			$(".fileupload-previewrow .alert").fadeOut("slow", "linear");
 
-			$(".fileupload-add, .fileupload-start, .fileupload-cancel").removeAttr("disabled");
+			$(".fileupload-add").removeAttr("disabled");
+			$(".fileupload-start").removeAttr("disabled");
+			$(".fileupload-cancel").removeAttr("disabled");
 			$(".fileupload-add").delay(800).fadeIn("slow", "linear");
 
 			overallProgressBar.find(".progress-bar-success").attr("aria-valuenow", 0).css("width", "0%");
@@ -446,42 +411,6 @@
 			var xhr = new XMLHttpRequest();
 
 			return !! (window.FormData && xhr && ('upload' in xhr) && ('onprogress' in xhr.upload));
-		};
-
-		var isUrlValid = function(url) {
-			return /((http(s)?|ftp(s)?):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/.test(url);
-		};
-
-		var debugMode = function(debugType) {
-			var alertMsg, alertWrapper = $('<div class="alert alert-danger" role="alert"></div>');
-
-			switch (debugType) {
-				case 'url':
-					alertMsg = "The URL provided in the configuration is not a valid URL.";
-					break;
-				case 'fallbackUrl':
-					alertMsg = "The Fallback URL provided in the configuration is not a valid URL.";
-					break;
-				case 'formMethod':
-					alertMsg = "The Form Method provided in the configuration is not a valid, please choose either get or post in the configuration.";
-					break;
-				case 'bootstrap':
-					alertMsg = "The Twitter Bootstrap API is not available on the current page. Please check to make sure all the dependencies are in place.";
-					break;
-				case 'debug':
-					alertMsg = "The debug mode chosen in the configuration is not an acceptable choice. Please choose false, console or verbose.";
-					break;
-				default:
-					alertMsg = "An unknown error occured.";
-					break;
-			}
-
-			if (options.debug === 'console') {
-				window.console.log("Error: " + alertMsg);
-			} else if (options.debug === 'verbose' || debugType === 'debug') {
-				alertWrapper.append(alertMsg);
-				wrapper.append(alertWrapper);
-			}
 		};
 
 		return this.each(function() {

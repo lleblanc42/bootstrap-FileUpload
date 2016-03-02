@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-FileUpload",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "author": "Luke LeBlanc",
   "homepage": "https://github.com/lleblanc42/bootstrap-FileUpload",
   "repository": {
@@ -18,7 +18,6 @@
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-cssmin": "^0.14.0",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-qunit": "~0.2.0",
