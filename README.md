@@ -25,16 +25,31 @@ Make sure to include the CSS for the plugin!
 <link rel="stylesheet" type="text/css" href="bootstrap-FileUpload.min.css" />
 ```
 
-Before you initialize the plugin, you must include the wrapper in your document. You can name this whatever you'd like, just make sure it's a div and the contents of the div is empty.
+Before you initialize the plugin, you must include the wrapper in your document with the class of fileupload-wrapper. Just create another div that you can name this whatever you'd like inside of the wrapper, and make sure the contents of the div is empty.
 
 ```html
-<div id="fileupload-wrapper"></div>
+<div class="fileupload-wrapper"><div id="myUpload"></div></div>
 ```
 
-To initialize the plugin, you need to put the following code block (wrapped in the script tag) in the HTML of your web page in either the head or just before the ending body tag (the preferred method when using HTML5 Bootstrap) and reference the div you created previously:
+The plugin allows for multiple file uploads on one page. You can either add multiple div inside the fileupload-wrapper div, or create multiple fileupload-wrapper that wrap around your upload "shell".
+
+```html
+<div class="fileupload-wrapper"><div id="myUpload"></div><div id="myUpload2"></div></div>
+```
+
+```html
+<div class="fileupload-wrapper"><div id="myUpload"></div></div>
+<div class="fileupload-wrapper"><div id="myUpload2"></div></div>
+```
+
+To initialize the plugin, you need to put the following code block (wrapped in the script tag) in the HTML of your web page in either the head or just before the ending body tag (the preferred method when using HTML5 Bootstrap) and reference the inner div you created previously. For multiple upload forms, just include two versions of the snippets, each pointing to the desired "shell".
 
 ```javascript
-$("#fileupload-wrapper").bootstrapFileUpload({
+$("#myUpload").bootstrapFileUpload({
+	url: "processor.php"
+});
+
+$("#myUpload2").bootstrapFileUpload({
 	url: "processor.php"
 });
 ```
@@ -87,7 +102,7 @@ _(Coming soon)_
 - [x] ~~Check if site utilizes Twitter Bootstrap~~
 - [x] ~~Add debug mode~~
 - [x] ~~Add URL verification support~~
-- [ ] Add support for multiple file upload fields
+- [x] ~~Add support for multiple file upload fields~~
 - [ ] Add support for multiple acceptable returns from processor (not just JSON)
 - [ ] Cleanup and further stabalize the code
 - [ ] Further test and add additional support for callbacks
@@ -97,6 +112,9 @@ _(Coming soon)_
 - [ ] Include proper QUnit testing
 
 ## Release History
+v0.3.0
+* Added support for multiple file upload instances
+
 v0.2.0
 * The plugin now checks to see if the Twitter Bootstrap API is available
 * Added debugging capabilities

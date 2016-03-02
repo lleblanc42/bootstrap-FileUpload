@@ -1,4 +1,4 @@
-/*! Bootstrap FileUpload - v0.2.0 - 2016-03-02
+/*! Bootstrap FileUpload - v0.3.0 - 2016-03-02
 * https://github.com/lleblanc42/bootstrap-FileUpload
 * Copyright (c) 2016 Luke LeBlanc; Licensed GPL-3.0 */
 ;(function ($, document, window, undefined) {
@@ -83,7 +83,7 @@
 			if (testBrowser && options.forceFallback === false) {
 				formData = new FormData();
 
-				form = $('<form action="' + (options.fallbackUrl ? options.fallbackUrl : options.url) + '" method="' + options.formMethod + '" enctype="multipart/form-data"></form>');
+				form = $('<form action="' + options.url + '" method="' + options.formMethod + '" enctype="multipart/form-data"></form>');
 				btnBar = $('<div class="row fileupload-buttonbar"></div>');
 				btnWrapper = $('<div class="col-lg-7"></div>');
 

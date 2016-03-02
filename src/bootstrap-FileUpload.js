@@ -1,6 +1,6 @@
 /*
  * bootstrap-FileUpload.js
- * @version: v0.2.0
+ * @version: v0.3.0
  * @author: Luke LeBlanc
  *
  * Copyright (c) 2016 Luke LeBlanc
@@ -100,7 +100,7 @@
 			if (testBrowser && options.forceFallback === false) {
 				formData = new FormData();
 
-				form = $('<form action="' + (options.fallbackUrl ? options.fallbackUrl : options.url) + '" method="' + options.formMethod + '" enctype="multipart/form-data"></form>');
+				form = $('<form action="' + options.url + '" method="' + options.formMethod + '" enctype="multipart/form-data"></form>');
 				btnBar = $('<div class="row fileupload-buttonbar"></div>');
 				btnWrapper = $('<div class="col-lg-7"></div>');
 
