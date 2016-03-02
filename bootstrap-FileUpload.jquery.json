@@ -2,7 +2,7 @@
   "name": "bootstrap-FileUpload",
   "title": "Bootstrap FileUpload",
   "description": "This plugin is very lightweight, highly customizable, easy to use, extremely easy to integrate into any website with minimal dependancies and of course cross compatible. It includes support for mobile devices with fallback options to a regular customized form input field. All it needs is Twitter Bootstrap V3 and the latest version of jQuery!",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/lleblanc42/bootstrap-FileUpload",
   "author": {
     "name": "Luke LeBlanc",
