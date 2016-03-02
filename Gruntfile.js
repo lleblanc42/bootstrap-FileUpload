@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         tasks: ['jshint:test', 'qunit']
       },
     },
-	  cssmin: {
+    cssmin: {
       target: {
         files: [{
           expand: true,
@@ -68,6 +68,16 @@ module.exports = function(grunt) {
           dest: 'dist',
           ext: '.min.css'
         }]
+      },
+    },
+    copy: {
+      main: {
+        files: [{
+          expand: true,
+          cwd: 'src/',
+          src: '<%= pkg.name %>.css',
+          dest: 'dist/'
+        }],
       },
     },
   });
@@ -80,8 +90,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'cssmin', 'copy']);
 
 };

@@ -59,6 +59,7 @@ Make sure to change the url option to point to the web page that will properly p
 | thumbWidth | 80 | number | Changes the width of the thumbnail to the set number in pixels |
 | thumbHeight | 80 | number | Changes the height of the thumbnail to the set number in pixels |
 | fileTypes | null | string | Limits the types of files that can be uploaded |
+| debug | verbose | false, 'console' or 'verbose' | In the case of misconfiguration, this switch can either display a message to the user if verbose was set, display a message in the console log is console is set, or do nothing if false is set. |
 
 ## Callbacks
 
@@ -83,8 +84,9 @@ _(Coming soon)_
 ## Feature Release Plans
 - [ ] Detailed comments in the source code (apologize for lack therof)
 - [ ] Comprehensive testing of jQuery library compatibility
-- [ ] Check if site utilizes Twitter Bootstrap
-- [ ] Add debug mode
+- [x] ~~Check if site utilizes Twitter Bootstrap~~
+- [x] ~~Add debug mode~~
+- [x] ~~Add URL verification support~~
 - [ ] Add support for multiple file upload fields
 - [ ] Add support for multiple acceptable returns from processor (not just JSON)
 - [ ] Cleanup and further stabalize the code
@@ -95,4 +97,9 @@ _(Coming soon)_
 - [ ] Include proper QUnit testing
 
 ## Release History
+v0.2.0
+* The plugin now checks to see if the Twitter Bootstrap API is available
+* Added debugging capabilities
+* Added more extensive error checking including URL verifying and input method verifications
+
 First official release! v0.1.0
