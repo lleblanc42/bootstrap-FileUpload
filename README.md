@@ -13,6 +13,8 @@ Before using this plugin, you need to have the following two dependencies in you
 * Twitter Bootstrap (v3)
 * Latest 1.x version of jQuery
 
+### The HTML/CSS
+
 Point to the plugin in the HTML in either the head or just before the ending body tag (the preferred method when using HTML5 Bootstrap) in your web page will the following line of code:
 
 ```html
@@ -42,6 +44,8 @@ The plugin allows for multiple file uploads on one page. You can either add mult
 <div class="fileupload-wrapper"><div id="myUpload2"></div></div>
 ```
 
+### The Javascript
+
 To initialize the plugin, you need to put the following code block (wrapped in the script tag) in the HTML of your web page in either the head or just before the ending body tag (the preferred method when using HTML5 Bootstrap) and reference the inner div you created previously. For multiple upload forms, just include two versions of the snippets, each pointing to the desired "shell".
 
 ```javascript
@@ -53,8 +57,27 @@ $("#myUpload2").bootstrapFileUpload({
 	url: "processor.php"
 });
 ```
+Make sure to change the url option to point to the web page that will properly process the form information. Currently, this script only supports JSON as a return type from the processor.
 
-Make sure to change the url option to point to the web page that will properly process the form information. Currently, this script only supports JSON as a return type from the processor. 
+### File Type Configuration
+
+To determine which file types/extentions are to be accepted by the plugin, you must declare it as an array. The plugin organizes it into 5 different groups. You can declare just the group with an empty array, which will include all of the extentions within that group. Or, you can include an array with all of the desired extentions for that group. Below is the current list of accepted groups with their extentions and how to declare it in the configuration. You can also declare extentions that aren't in the list below or even create custom groups.
+
+1. archives: ["zip", "7z", "gz", "gzip", "rar", "tar"]
+2. audio: ["mp3", "wav", "wma", "wpl", "aac", "flac", "m4a", "m4b", "m4p", "midi", "ogg"]
+3. files: ["doc", "docx", "docm", "ods", "odt", "ott", "ods", "pdf", "ppt", "pptm", "pptx", "pub", "rtf", "csv", "log", "txt", "xls", "xlsm", "xlsx"]
+4. images: ["bmp", "tif", "tiff", "gif", "jpeg", "jpg", "png", "svg", "ico", "raw"]
+5. video: ["avi", "flv", "swf", "m4v", "mkv", "mov", "mp4", "ogv", "wmv"]
+
+```javascript
+$("#myUpload").bootstrapFileUpload({
+	url: "processor.php",
+	fileTypes: {
+		images: [],
+		files: ["doc", "docx", "pdf"]
+	}
+});
+```
 
 ## Options
 
@@ -70,11 +93,11 @@ Make sure to change the url option to point to the web page that will properly p
 | forceFallback | false | true or false | Forces the fallback option of the plugin if set to true which won't allow multiple file uploads or thumbnail previews |
 | maxSize | 5 | number | Limits the max filesize of each file to the number set in megabytes |
 | maxFiles | null | null or number | Limits the number of files the user is able to select for uploading |
-| createThumb | true | true or false | Creates a thumbnail of the file selected if set to true |
+| showThumb | true | true or false | Creates a thumbnail of the image selected or displays the file icon if set to true _Currently not implemented_ |
 | thumbWidth | 80 | number | Changes the width of the thumbnail to the set number in pixels |
 | thumbHeight | 80 | number | Changes the height of the thumbnail to the set number in pixels |
-| fileTypes | null | string | Limits the types of files that can be uploaded |
-| debug | verbose | false, 'console' or 'verbose' | In the case of misconfiguration, this switch can either display a message to the user if verbose was set, display a message in the console log is console is set, or do nothing if false is set. |
+| fileTypes | please see the list of file types above | array | Limits the types of files that can be uploaded as well as accepted extentions |
+| debug | true | true or false | In the case of misconfiguration, this switch can either display a message to the user if true was set, or display a message in the console log. |
 
 ## Callbacks
 
@@ -97,21 +120,30 @@ _Callbacks have not been tested as of yet, please note feature release plans_
 _(Coming soon)_
 
 ## Feature Release Plans
-- [ ] Detailed comments in the source code (apologize for lack therof)
-- [ ] Comprehensive testing of jQuery library compatibility
 - [x] ~~Check if site utilizes Twitter Bootstrap~~
 - [x] ~~Add debug mode~~
 - [x] ~~Add URL verification support~~
 - [x] ~~Add support for multiple file upload fields~~
-- [ ] Add support for multiple acceptable returns from processor (not just JSON)
-- [ ] Cleanup and further stabalize the code
-- [ ] Further test and add additional support for callbacks
-- [ ] Limit what's accepted for file types
-- [ ] Check if the file uploaded is a file or graphic to regulate whether or not it gets a thumbnail or an icon
+- [x] ~~Limit what's accepted for file types~~
 - [ ] Include a set of file type icons
+- [ ] Check if the file uploaded is a file or graphic to regulate whether or not it gets a thumbnail or an icon
+- [ ] Add support for multiple acceptable returns from processor (not just JSON)
+- [ ] Add support for methods
+- [ ] Add support for custom templates
+- [ ] Cleanup and fully stabalize the code
+- [ ] Further test and add additional support for callbacks
+- [ ] Detailed comments in the source code (apologize for lack therof)
+- [ ] Comprehensive testing of jQuery library compatibility
 - [ ] Include proper QUnit testing
 
 ## Release History
+v0.4.0
+* Cleaned up some of the code
+* Changed the options for the debug from string to boolean (simplification)
+* Changed the option createThumb to showThumb
+* Added a default list of accepted file inputs
+* Added functionality to control which file types to accept and their extentions
+
 v0.3.0
 * Added support for multiple file upload instances
 
