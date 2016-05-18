@@ -21,10 +21,11 @@ Point to the plugin in the HTML in either the head or just before the ending bod
 <script src="js/bootstrap-FileUpload.min.js"></script>
 ```
 
-Make sure to include the CSS for the plugin!
+Make sure to include the CSS for the plugin and include the Font Awesome CSS for file icons! Make sure to copy the fonts folder to the root of your website in order to use Font Awesome.
 
 ```html
-<link rel="stylesheet" type="text/css" href="bootstrap-FileUpload.min.css" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap-FileUpload.min.css" />
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 ```
 
 Before you initialize the plugin, you must include the wrapper in your document with the class of fileupload-wrapper. Just create another div that you can name this whatever you'd like inside of the wrapper, and make sure the contents of the div is empty.
@@ -61,7 +62,7 @@ Make sure to change the url option to point to the web page that will properly p
 
 ### File Type Configuration
 
-To determine which file types/extentions are to be accepted by the plugin, you must declare it as an array. The plugin organizes it into 5 different groups. You can declare just the group with an empty array, which will include all of the extentions within that group. Or, you can include an array with all of the desired extentions for that group. Below is the current list of accepted groups with their extentions and how to declare it in the configuration. You can also declare extentions that aren't in the list below or even create custom groups.
+To determine which file types/extensions are to be accepted by the plugin, you must declare it as an array. The plugin organizes it into 5 different groups. You can declare just the group with an empty array, which will include all of the extensions within that group. Or, you can include an array with all of the desired extensions for that group. Below is the current list of accepted groups with their extensions and how to declare it in the configuration. You can also declare extensions that aren't in the list below or even create custom groups.
 
 1. archives: ["zip", "7z", "gz", "gzip", "rar", "tar"]
 2. audio: ["mp3", "wav", "wma", "wpl", "aac", "flac", "m4a", "m4b", "m4p", "midi", "ogg"]
@@ -93,10 +94,10 @@ $("#myUpload").bootstrapFileUpload({
 | forceFallback | false | true or false | Forces the fallback option of the plugin if set to true which won't allow multiple file uploads or thumbnail previews |
 | maxSize | 5 | number | Limits the max filesize of each file to the number set in megabytes |
 | maxFiles | null | null or number | Limits the number of files the user is able to select for uploading |
-| showThumb | true | true or false | Creates a thumbnail of the image selected or displays the file icon if set to true _Currently not implemented_ |
+| showThumb | true | true or false | Creates a thumbnail of the image selected or displays the file icon if set to true |
 | thumbWidth | 80 | number | Changes the width of the thumbnail to the set number in pixels |
 | thumbHeight | 80 | number | Changes the height of the thumbnail to the set number in pixels |
-| fileTypes | please see the list of file types above | array | Limits the types of files that can be uploaded as well as accepted extentions |
+| fileTypes | please see the list of file types above | array | Limits the types of files that can be uploaded as well as accepted extensions |
 | debug | true | true or false | In the case of misconfiguration, this switch can either display a message to the user if true was set, or display a message in the console log. |
 
 ## Callbacks
@@ -125,24 +126,29 @@ _(Coming soon)_
 - [x] ~~Add URL verification support~~
 - [x] ~~Add support for multiple file upload fields~~
 - [x] ~~Limit what's accepted for file types~~
-- [ ] Include a set of file type icons
-- [ ] Check if the file uploaded is a file or graphic to regulate whether or not it gets a thumbnail or an icon
-- [ ] Add support for multiple acceptable returns from processor (not just JSON)
+- [x] ~~Include a set of file type icons~~
+- [x] ~~Check if the file uploaded is a file or graphic to regulate whether or not it gets a thumbnail or an icon~~
 - [ ] Add support for methods
+- [ ] Further test and add additional support for callbacks
+- [ ] Add support for multiple acceptable returns from processor (not just JSON)
 - [ ] Add support for custom templates
 - [ ] Cleanup and fully stabalize the code
-- [ ] Further test and add additional support for callbacks
 - [ ] Detailed comments in the source code (apologize for lack therof)
 - [ ] Comprehensive testing of jQuery library compatibility
 - [ ] Include proper QUnit testing
 
 ## Release History
+v0.5.0
+* Now includes Font Awesome 4.6.3 for use of the application icons
+* Checks which kind of file it is an either creates a thumnail or assigns an icon
+* Bug fixes with
+
 v0.4.0
 * Cleaned up some of the code
 * Changed the options for the debug from string to boolean (simplification)
 * Changed the option createThumb to showThumb
 * Added a default list of accepted file inputs
-* Added functionality to control which file types to accept and their extentions
+* Added functionality to control which file types to accept and their extensions
 
 v0.3.0
 * Added support for multiple file upload instances
