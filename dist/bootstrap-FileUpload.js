@@ -1,4 +1,4 @@
-/*! Bootstrap FileUpload - v0.4.0 - 2016-05-17
+/*! Bootstrap FileUpload - v0.5.0 - 2016-05-18
 * https://github.com/lleblanc42/bootstrap-FileUpload
 * Copyright (c) 2016 Luke LeBlanc; Licensed GPL-3.0 */
 ;(function ($, document, window, undefined) {
@@ -61,6 +61,12 @@
 
 			if (typeof $().emulateTransitionEnd !== 'function') {
 				debug("bootstrap");
+
+				return;
+			}
+
+			if (!$("link[href$='font-awesome.css']").length && !$("link[href$='font-awesome.min.css']").length && options.showThumb === true) {
+				debug("fontAwesome");
 
 				return;
 			}
@@ -186,17 +192,20 @@
 			filePreviewTable.detach();
 
 			for (var i = 0; i < length; i++) {
-				var fileName, file, size, row;
+				var fileName, fileExt, fileType, file, size, row;
 
 				fileName = "file-" + i;
 				file = curfiles[i];
 				size = (file.size / 1024) / 1024;
+				fileExt = file.name.split('.').pop().toLowerCase();
 
-				if (isValidFileType(file.type.split('/').pop().toLowerCase()) === false) {
+				if (isValidFileType(fileExt) === false) {
 					window.alert('The file "' + file.name + '" is not a supported filetype!');
 
 					continue;
 				}
+
+				fileType = getFileType(fileExt);
 
 				if (size.toFixed(2) > options.maxSize) {
 					window.alert('The file size for "' + file.name + '" is too large! Maximum supported file size is ' + options.maxSize + 'MB and the size of the file is ' + size + 'MB');
@@ -219,7 +228,7 @@
 				var progressBar = '<div class="progress fileupload-progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div><div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div></div><div class="alert alert-success"><strong>Uploaded Successfully!</strong></div><div class="alert alert-danger"></div>';
 					
 				if (options.showThumb === true) {
-					var thumb = '<img src="' + URL.createObjectURL(file) + '" alt="' + file.name + '" width="' + options.thumbWidth + 'px" height="' + options.thumbHeight + 'px" class="fileupload-previewimg" />';
+					var thumb = genThumb(file, fileType, fileExt);
 
 					if (options.multiUpload === false) {
 						row = '<tr class="fileupload-previewrow thumb row" id="' + fileName + '"><td class="col-lg-1">' + thumb + '</td><td class="col-lg-4">' + file.name + '</td><td class="col-lg-6">' + progressBar + '</td><td class="col-lg-1"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
@@ -244,6 +253,84 @@
 			if (typeof options.onFileAdded === 'function') {
 				options.onFileAdded.call(this);
 			}
+		};
+
+		var genThumb = function (file, fileType, fileExt) {
+			var thumb;
+
+			switch (fileType) {
+				case 'archives':
+					thumb = '<i class="fa fa-file-archive-o fa-5x"></i>';
+
+					break;
+				case 'audio':
+					thumb = '<i class="fa fa-file-audio-o fa-5x"></i>';
+
+					break;
+				case 'files':
+					switch (fileExt) {
+						case 'doc':
+							thumb = '<i class="fa fa-file-word-o fa-5x"></i>';
+
+							break;
+						case 'docx':
+							thumb = '<i class="fa fa-file-word-o fa-5x"></i>';
+
+							break;
+						case 'docm':
+							thumb = '<i class="fa fa-file-word-o fa-5x"></i>';
+
+							break;
+						case 'ppt':
+							thumb = '<i class="fa fa-file-powerpoint-o fa-5x"></i>';
+
+							break;
+						case 'pptm':
+							thumb = '<i class="fa fa-file-powerpoint-o fa-5x"></i>';
+
+							break;
+						case 'pptx':
+							thumb = '<i class="fa fa-file-powerpoint-o fa-5x"></i>';
+
+							break;
+						case 'pdf':
+							thumb = '<i class="fa fa-file-pdf-o fa-5x"></i>';
+
+							break;
+						case 'xls':
+							thumb = '<i class="fa fa-file-excel-o fa-5x"></i>';
+
+							break;
+						case 'csv':
+							thumb = '<i class="fa fa-file-excel-o fa-5x"></i>';
+
+							break;
+						case 'xlsm':
+							thumb = '<i class="fa fa-file-excel-o fa-5x"></i>';
+
+							break;
+						case 'xlsx':
+							thumb = '<i class="fa fa-file-excel-o fa-5x"></i>';
+
+							break;
+						default:
+							thumb = '<i class="fa fa-file-o fa-5x"></i>';
+
+							break;
+					}
+
+					break;
+				case 'images':
+					thumb = '<img src="' + URL.createObjectURL(file) + '" alt="' + file.name + '" width="' + options.thumbWidth + 'px" height="' + options.thumbHeight + 'px" class="fileupload-previewimg" />';
+
+					break;
+				case 'video':
+					thumb = '<i class="fa fa-file-movie-o fa-5x"></i>';
+
+					break;
+			}
+
+			return thumb;
 		};
 
 		var uploadStart = function () {
@@ -447,28 +534,36 @@
 		};
 
 		var buildFileTypes = function () {
-			if ($.isEmptyObject(options.fileTypes)) {
-				$.each(availableFileTypes, function (type, extensions) {
-					options.fileTypes[type] = extensions;
-				});
-			} else {
-				$.each(options.fileTypes, function (key, value) {
-					if ($.isNumeric(key)) {
-						options.fileTypes[value] = availableFileTypes[value];
-					} else if (!$.isNumeric(key) && $.isEmptyObject(value)) {
-						options.fileTypes[key] = availableFileTypes[key];
-					}
-				});
-			}
+			$.each(options.fileTypes, function (key, value) {
+				if ($.isNumeric(key)) {
+					options.fileTypes[value] = availableFileTypes[value];
+				} else if (!$.isNumeric(key) && $.isEmptyObject(value)) {
+					options.fileTypes[key] = availableFileTypes[key];
+				}
+			});
 
 			return;
+		};
+
+		var getFileType = function (fileExt) {
+			var fileType;
+
+			$.each(options.fileTypes, function (type, extensions) {
+				if ($.inArray(fileExt, extensions) >= 0) {
+					fileType = type;
+
+					return false;
+				}
+			});
+
+			return fileType;
 		};
 
 		var isValidFileType = function (fileExt) {
 			var result = false;
 
 			$.each(options.fileTypes, function (type, extensions) {
-				if ($.inArray(fileExt, extensions) === 0) {
+				if ($.inArray(fileExt, extensions) >= 0) {
 					result = true;
 
 					return false;
@@ -476,6 +571,44 @@
 			});
 
 			return result;
+		};
+
+		var debug = function (type) {
+			var alertMsg, alertWrapper = $('<div class="alert alert-danger" role="alert"></div>');
+
+			switch (type) {
+				case 'fontAwesome':
+					alertMsg = "The Font Awesome CSS is not available within the head of the website and is a required unless the option showThumb is set to false.";
+
+					break;
+				case 'url':
+					alertMsg = "The URL provided in the configuration is not a valid URL.";
+					
+					break;
+				case 'fallbackUrl':
+					alertMsg = "The Fallback URL provided in the configuration is not a valid URL.";
+					
+					break;
+				case 'formMethod':
+					alertMsg = "The Form Method provided in the configuration is not a valid, please choose either get or post in the configuration.";
+					
+					break;
+				case 'bootstrap':
+					alertMsg = "The Twitter Bootstrap API is not available on the current page. Please check to make sure all the dependencies are in place.";
+					
+					break;
+				default:
+					alertMsg = "An unknown error occured.";
+					
+					break;
+			}
+
+			if (options.debug === false && (window.console && window.console.error)) {
+				window.console.error(alertMsg);
+			} else if (options.debug === true) {
+				alertWrapper.append(alertMsg);
+				wrapper.append(alertWrapper);
+			}
 		};
 
 		return this.each(function () {
@@ -491,39 +624,5 @@
 
 	function isUrlValid(url) {
 		return /((http(s)?|ftp(s)?):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/.test(url);
-	}
-
-	function debug(type) {
-		var alertMsg, alertWrapper = $('<div class="alert alert-danger" role="alert"></div>');
-
-		switch (type) {
-			case 'url':
-				alertMsg = "The URL provided in the configuration is not a valid URL.";
-				
-				break;
-			case 'fallbackUrl':
-				alertMsg = "The Fallback URL provided in the configuration is not a valid URL.";
-				
-				break;
-			case 'formMethod':
-				alertMsg = "The Form Method provided in the configuration is not a valid, please choose either get or post in the configuration.";
-				
-				break;
-			case 'bootstrap':
-				alertMsg = "The Twitter Bootstrap API is not available on the current page. Please check to make sure all the dependencies are in place.";
-				
-				break;
-			default:
-				alertMsg = "An unknown error occured.";
-				
-				break;
-		}
-
-		if (options.debug === false && (window.console && window.console.error)) {
-			window.console.error(alertMsg);
-		} else if (options.debug === true) {
-			alertWrapper.append(alertMsg);
-			wrapper.append(alertWrapper);
-		}
 	}
 }(jQuery, document, window));
