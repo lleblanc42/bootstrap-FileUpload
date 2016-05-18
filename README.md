@@ -1,6 +1,7 @@
 # Bootstrap FileUpload [![Build Status](https://travis-ci.org/lleblanc42/bootstrap-FileUpload.svg?branch=master)](https://travis-ci.org/lleblanc42/bootstrap-FileUpload) [![GitHub version](https://badge.fury.io/gh/lleblanc42%2Fbootstrap-FileUpload.svg)](https://badge.fury.io/gh/lleblanc42%2Fbootstrap-FileUpload)
-#### Issues Overview
+##### Issues Overview
 [![In the works](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=ready&title=Ready)](http://waffle.io/lleblanc42/bootstrap-FileUpload) [![Currently in Progress](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/lleblanc42/bootstrap-FileUpload) [![On Hold](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=on%20hold&title=On%20Hold)](http://waffle.io/lleblanc42/bootstrap-FileUpload) [![Done](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=done&title=Done)](http://waffle.io/lleblanc42/bootstrap-FileUpload)
+
 This plugin is very lightweight, highly customizable, easy to use, extremely easy to integrate into any website with minimal dependancies and of course cross compatible. It includes support for mobile devices with fallback options to a regular customized form input field. It has the ability to upload multiple files at once and provide thumbnail previews. All it needs is Twitter Bootstrap V3 and the latest version of jQuery!
 
 ## Getting Started
