@@ -1,6 +1,6 @@
 # Bootstrap FileUpload [![Build Status](https://travis-ci.org/lleblanc42/bootstrap-FileUpload.svg?branch=master)](https://travis-ci.org/lleblanc42/bootstrap-FileUpload) [![GitHub version](https://badge.fury.io/gh/lleblanc42%2Fbootstrap-FileUpload.svg)](https://badge.fury.io/gh/lleblanc42%2Fbootstrap-FileUpload)
 ##### Issues Overview
-[![In the works](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=ready&title=Ready)](http://waffle.io/lleblanc42/bootstrap-FileUpload) [![Currently in Progress](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/lleblanc42/bootstrap-FileUpload) [![On Hold](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=on%20hold&title=On%20Hold)](http://waffle.io/lleblanc42/bootstrap-FileUpload)
+[![In the works](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=ready&title=In%20the%20works)](http://waffle.io/lleblanc42/bootstrap-FileUpload) [![Currently in Progress](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=in%20progress&title=Currently%20in%20Progress)](http://waffle.io/lleblanc42/bootstrap-FileUpload) [![On Hold](https://badge.waffle.io/lleblanc42/bootstrap-FileUpload.svg?label=on%20hold&title=On%20Hold)](http://waffle.io/lleblanc42/bootstrap-FileUpload)
 
 This plugin is very lightweight, highly customizable, easy to use, extremely easy to integrate into any website with minimal dependancies and of course cross compatible. It includes support for mobile devices with fallback options to a regular customized form input field. It has the ability to upload multiple files at once and provide thumbnail previews. All it needs is Twitter Bootstrap V3 and the latest version of jQuery!
 
@@ -229,7 +229,7 @@ $("#reset").on('click', function (e) {
 ## Examples
 _(Coming soon)_
 
-## Feature Release Plans
+## Feature Release Plans (9 out of 18)
 - [x] ~~Check if site utilizes Twitter Bootstrap - v0.2.0 Release~~
 - [x] ~~Add debug mode - v0.2.0 Release~~
 - [x] ~~Add URL verification support - v0.2.0 Release~~
@@ -240,13 +240,13 @@ _(Coming soon)_
 - [x] ~~Add support for methods - v0.6.0 Release~~
 - [x] ~~Further test and add additional support for callbacks - v0.6.0 Release~~
 - [ ] Add support for multiple acceptable returns from processor (not just JSON) - v0.7.0 Release
+- [ ] Add a GH Pages repo - v0.7.0 Release
 - [ ] Add support for custom templates - v0.8.0 Release
 - [ ] Add drag and drop support - v0.9.0 Release
 - [ ] Detailed comments in the source code (apologize for lack therof) - v1.0.0 Release
 - [ ] Cleanup and fully stabalize the code - v1.0.0 Release
 - [ ] Comprehensive testing of jQuery library compatibility - v1.0.0 Release
 - [ ] Include proper QUnit testing - v1.0.0 Release
-- [ ] Add a GH Pages repo - v1.0.0 Release
 - [ ] Add support for additional libraries - v1.1.0 Release
 
 ## Release History
