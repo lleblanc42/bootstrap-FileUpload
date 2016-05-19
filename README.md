@@ -69,7 +69,7 @@ To determine which file types/extensions are to be accepted by the plugin, you m
 
 1. archives: ["zip", "7z", "gz", "gzip", "rar", "tar"]
 2. audio: ["mp3", "wav", "wma", "wpl", "aac", "flac", "m4a", "m4b", "m4p", "midi", "ogg"]
-3. files: ["doc", "docx", "docm", "ods", "odt", "ott", "ods", "pdf", "ppt", "pptm", "pptx", "pub", "rtf", "csv", "log", "txt", "xls", "xlsm", "xlsx"]
+3. files: ["doc", "docx", "dotx", "docm", "ods", "odt", "ott", "ods", "pdf", "ppt", "pptm", "pptx", "pub", "rtf", "csv", "log", "txt", "xls", "xlsm", "xlsx"]
 4. images: ["bmp", "tif", "tiff", "gif", "jpeg", "jpg", "png", "svg", "ico", "raw"]
 5. video: ["avi", "flv", "swf", "m4v", "mkv", "mov", "mp4", "ogv", "wmv"]
 
@@ -84,6 +84,8 @@ $("#myUpload").bootstrapFileUpload({
 ```
 
 ## Options
+
+Below is a detailed list of all of the available options to configure and customize the upload form as desired.
 
 | Option Name | Default Value | Acceptable Input | Description |
 | ------------- | ------------- | ------------- | ------------- |
@@ -105,6 +107,10 @@ $("#myUpload").bootstrapFileUpload({
 
 ## Callbacks
 
+Callbacks can be useful if you wish to perform an additional task after a default processed has completed. There is a callback available after almost every action throughout the users experience.
+
+Callbacks are declared with the options. You can declare as many callbacks as you wish and for multiple upload forms. An example is available under the table.
+
 | Callback Name | Description |
 | ------------- | ------------- |
 | onInit | Calls when the plugin is initialized |
@@ -118,7 +124,107 @@ $("#myUpload").bootstrapFileUpload({
 | onUploadComplete | Calls when the plugin has completed processing of all of the files |
 | onUploadReset | Calls when the file list is reset |
 
-_Callbacks have not been tested as of yet, please note feature release plans_
+### Example
+
+```html
+<div class="fileupload-wrapper"><div id="myUpload"></div></div>
+```
+
+```javascript
+$("#myUpload").bootstrapFileUpload({
+	url: "processor.php",
+	onInit: function () {
+		window.alert("initialized!");
+	},
+    onFileAdded: function () {
+    	window.alert("file added!");
+    }
+});
+```
+
+## Methods
+
+Below is a list of the currently available public methods. All of these methods open up the ability to create custom buttons to preform basic tasks within the plugin. This makes way for the upcoming templating system that is planned for the 0.8.0 release. The public methods are still experimental and full support for them has yet to be established as testing has been limited. Full support and testing will be completed for the 1.0.0 release. [Please submit any issues here](https://github.com/lleblanc42/bootstrap-FileUpload/issues).
+
+In order to use the methods, you must indicate which instance (id without the '#') you would like the plugin to work with in the first argument after declaring which method you would like use. You must also decalre the upload form before you call a method to ensure the instance is populated.
+
+### addFile(event)
+
+Gives the availability to create custom add file buttons. In order for it to function correctly, the button must be a file input and you must pass the event on when the input changes.
+
+```html
+<div class="fileupload-wrapper"><div id="myUpload"></div></div>
+<input id="addBtn" type="file" multiple="multiple" />
+```
+
+```javascript
+$("#myUpload").bootstrapFileUpload({
+	url: "processor.php"
+});
+
+$("#addBtn").on('change', function (e) {
+	$.bootstrapFileUpload('addFile', "myUpload", e);
+});
+```
+
+### uploadStart()
+
+Used to create a button to simply begin the upload process. To use, create a button with an ID and associate an on click event with the ID of the button and then pass the uploadStart method.
+
+```html
+<div class="fileupload-wrapper"><div id="myUpload"></div></div>
+<button id="uploadStart">Upload the files!</button>
+```
+
+```javascript
+$("#myUpload").bootstrapFileUpload({
+	url: "processor.php"
+});
+
+$("#uploadStart").on('click', function (e) {
+	e.preventDefault();
+	$.bootstrapFileUpload('uploadStart', "myUpload");
+});
+```
+
+### removeFile()
+
+This public method is currently not of any use as it requires the ID of the file the user wants to remove. The ID is set when a user adds a file. It may be possibile, though tricky, to code up a way to get the ID from the appropriate field and have it be removed. Makes way for the up and coming templating system.
+
+```html
+<div class="fileupload-wrapper"><div id="myUpload"></div></div>
+<button id="file" value="file-id">Remove this file</button>
+```
+
+```javascript
+$("#myUpload").bootstrapFileUpload({
+	url: "processor.php"
+});
+
+$("#file").on('click', function () {
+	$.bootstrapFileUpload('removeFile', "myUpload", $(this).val());
+});
+```
+
+### resetUpload()
+
+When called, it completely resets the form and removes all of the files and clears the table.
+
+```html
+<div class="fileupload-wrapper"><div id="myUpload"></div></div>
+<button type="reset" id="reset">Reset the form</button>
+```
+
+```javascript
+$("#myUpload").bootstrapFileUpload({
+	url: "processor.php"
+});
+
+$("#reset").on('click', function (e) {
+	e.preventDefault();
+	$.bootstrapFileUpload('resetUpload', "myUpload");
+});
+```
 
 ## Examples
 _(Coming soon)_
@@ -131,8 +237,8 @@ _(Coming soon)_
 - [x] ~~Limit what's accepted for file types - v0.4.0 Release~~
 - [x] ~~Include a set of file type icons - v0.5.0 Release~~
 - [x] ~~Check if the file uploaded is a file or graphic to regulate whether or not it gets a thumbnail or an icon - v0.5.0 Release~~
-- [ ] Add support for methods - v0.6.0 Release
-- [ ] Further test and add additional support for callbacks - v0.6.0 Release
+- [x] ~~Add support for methods - v0.6.0 Release~~
+- [x] ~~Further test and add additional support for callbacks - v0.6.0 Release~~
 - [ ] Add support for multiple acceptable returns from processor (not just JSON) - v0.7.0 Release
 - [ ] Add support for custom templates - v0.8.0 Release
 - [ ] Add drag and drop support - v0.9.0 Release
@@ -140,9 +246,19 @@ _(Coming soon)_
 - [ ] Cleanup and fully stabalize the code - v1.0.0 Release
 - [ ] Comprehensive testing of jQuery library compatibility - v1.0.0 Release
 - [ ] Include proper QUnit testing - v1.0.0 Release
+- [ ] Add a GH Pages repo - v1.0.0 Release
 - [ ] Add support for additional libraries - v1.1.0 Release
 
 ## Release History
+v0.6.0
+* Complete overhall of the entire plugin
+* Established a new structural design pattern
+* Converted several public functions into private functions
+* Public methods are now available!
+* Moved several variables to the global scope so all functions can access them as needed
+* Now handles the global variables via multidimensional arrays (instances) as reworking the plugin to use methods broke the ability to handle multiple forms on a page
+* Completed basic testing of the callbacks, now fully supported and functional! Additional instructions added as well as an example in README
+
 v0.5.1
 * Updated README file
 * Began use of Waffle.io to manage project progression and added badges
