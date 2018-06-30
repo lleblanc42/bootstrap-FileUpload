@@ -1,9 +1,17 @@
 /*
  * bootstrap-FileUpload.js
- * @version: v0.6.0
+ * @version: v0.7.0
  * @author: Luke LeBlanc
  *
- * Copyright (c) 2016 Luke LeBlanc
+ * This plugin is very lightweight, highly customizable, easy to use,
+ * extremely easy to integrate into any website with minimal dependancies
+ * and of course cross compatible. It includes support for mobile devices
+ * with fallback options to a regular customized form input field. It has
+ * the ability to upload multiple files at once and provide thumbnail
+ * previews. All it needs is Twitter Bootstrap V3 and the latest version
+ * of jQuery!
+ *
+ * Copyright (c) 2018 Luke LeBlanc
  *
  * GNU General Public License v3 (http://www.gnu.org/licenses/)
  *
@@ -21,9 +29,28 @@
 ;(function ($, document, window, undefined) {
 	'use strict';
 
-	var instance = {}, availableFileTypes = {};
+	/**
+	 * Array of instances of the plugin
+	 * @type Array
+	 */
+	var instance = {};
 
+	/**
+	 * Array of available file types that gets built later on
+	 * @type Array
+	 */
+	var availableFileTypes = {};
+
+	/**
+	 * Array of public functions
+	 * @type Array
+	 */
 	var methods = {
+		/**
+		 * Initializes the plugin
+		 * @param  {Array} opts The array of user modified variables/options
+		 * @return {Object}      Runs a loop that starts up the plugin
+		 */
 		init: function (opts) {
 			instance[$(this).attr('id')] = {
 				options: $.extend({}, $.fn.bootstrapFileUpload.defaults, opts || {}),
@@ -47,6 +74,11 @@
 				startup($(this).attr('id'));
 			});
 		},
+		/**
+		 * Adds file to queue and performs various checks to ensure a proper file was uploaded to spec
+		 * @param {String} el    Current element in loop
+		 * @param {Object} event Event object from change event
+		 */
 		addFile: function (el, event) {
 			var curfiles = event.target.files;
 			var length = curfiles.length;
@@ -76,13 +108,13 @@
 
 				if (size.toFixed(2) > instance[el].options.maxSize) {
 					window.alert('The file size for "' + file.name + '" is too large! Maximum supported file size is ' + instance[el].options.maxSize + 'MB and the size of the file is ' + size + 'MB');
-					
+
 					continue;
 				}
-					
+
 				if (instance[el].arrayFiles && checkFile(el, file) >= 0) {
 					window.alert('The file "' + file.name + '" is already in queue!');
-					
+
 					continue;
 				}
 
@@ -93,34 +125,31 @@
 				instance[el].btnCancel.fadeIn("slow", "linear");
 
 				var progressBar = '<div class="progress fileupload-progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div><div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div></div><div class="alert alert-success"><strong>Uploaded Successfully!</strong></div><div class="alert alert-danger"></div>';
-					
+
 				if (instance[el].options.showThumb === true) {
 					var thumb = genThumb(el, file, fileType, fileExt);
 
-					if (instance[el].options.multiUpload === false) {
-						row = '<tr class="fileupload-previewrow thumb row" id="' + fileName + '"><td class="col-lg-1">' + thumb + '</td><td class="col-lg-4">' + file.name + '</td><td class="col-lg-6">' + progressBar + '</td><td class="col-lg-1"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
-					} else {
-						row = '<tr class="fileupload-previewrow thumb row" id="' + fileName + '"><td class="col-lg-1">' + thumb + '</td><td class="col-lg-9">' + file.name + '</td><td class="col-lg-2"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
-					}
+					if (instance[el].options.multiUpload === false) row = '<tr class="fileupload-previewrow thumb row" id="' + fileName + '"><td class="col-lg-1">' + thumb + '</td><td class="col-lg-4">' + file.name + '</td><td class="col-lg-6">' + progressBar + '</td><td class="col-lg-1"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
+					else row = '<tr class="fileupload-previewrow thumb row" id="' + fileName + '"><td class="col-lg-1">' + thumb + '</td><td class="col-lg-9">' + file.name + '</td><td class="col-lg-2"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
 				} else {
-					if (options.multiUpload === false) {
-						row = '<tr class="fileupload-previewrow no-thumb row" id="' + fileName + '"><td class="col-lg-5">' + file.name + '</td><td class="col-lg-6">' + progressBar + '</td><td class="col-lg-1"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
-					} else {
-						row = '<tr class="fileupload-previewrow no-thumb row" id="' + fileName + '"><td class="col-lg-10">' + file.name + '</td><td class="col-lg-2"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
-					}
+					if (instance[el].options.multiUpload === false) row = '<tr class="fileupload-previewrow no-thumb row" id="' + fileName + '"><td class="col-lg-5">' + file.name + '</td><td class="col-lg-6">' + progressBar + '</td><td class="col-lg-1"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
+					else row = '<tr class="fileupload-previewrow no-thumb row" id="' + fileName + '"><td class="col-lg-10">' + file.name + '</td><td class="col-lg-2"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
 				}
 
 				instance[el].filePreviewTable.append(row);
 			}
-				
+
 			instance[el].wrapper.append(instance[el].filePreviewTable);
 
 			instance[el].filePreviewTable.fadeIn("slow", "linear");
 
-			if (typeof instance[el].options.onFileAdded === 'function') {
-				instance[el].options.onFileAdded.call(this);
-			}
+			if (typeof instance[el].options.onFileAdded === 'function') instance[el].options.onFileAdded.call(this);
 		},
+		/**
+		 * [uploadStart description]
+		 * @param  {[type]} el [description]
+		 * @return {[type]}    [description]
+		 */
 		uploadStart: function (el) {
 			$(".fileupload-add, .fileupload-start, .fileupload-cancel, .fileupload-remove").attr("disabled", "disabled");
 
@@ -136,61 +165,9 @@
 
 					$("#" + key + " .fileupload-progress .progress-bar-striped").fadeIn("slow", "linear");
 
-					$.ajax({
-						url: instance[el].options.url,
-						type: instance[el].options.formMethod,
-						data: instance[el].formData,
-						cache: false,
-						contentType: false,
-						processData: false,
-						accepts: "json",
-						success: function(data, status, xhr) {
-							var response = JSON.parse(data);
+					procAjax(el, key);
 
-							if (response.error) {
-								$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-								$("#" + key + " .fileupload-progress .progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
-								$("#" + key + " .alert-danger").fadeIn("slow", "linear").html("<strong>Error:</strong><br />" + response.error);
-							} else {
-								$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-								$("#" + key + " .fileupload-progress .progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
-								$("#" + key + " .alert-success").fadeIn("slow", "linear");
-							}
-
-							if (typeof instance[el].options.onUploadSuccess === 'function') {
-								instance[el].options.onUploadSuccess.call(this);
-							}
-						},
-						error: function (xhr, status, err) {
-							$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-							$("#" + key + " .fileupload-progress .progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
-
-							$("#" + key + " .alert-danger").fadeIn("slow", "linear").html(status + ": " + err.message);
-
-							if (typeof instance[el].options.onUploadError === 'function') {
-								instance[el].options.onUploadError.call(this);
-							}
-						},
-						xhr: function () {
-							var myXhr = $.ajaxSettings.xhr();
-
-							if(myXhr.upload){
-								myXhr.upload.addEventListener('progress', function (e) {
-									if(e.lengthComputable){
-										var percentComplete = e.loaded / e.total;
-										
-										$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", Math.round(percentComplete * 100)).css("width", Math.round(percentComplete * 100) + "%");
-									}
-								});
-							}
-
-							return myXhr;
-						}
-					});
-
-					if (typeof instance[el].options.onUploadProgress === 'function') {
-						instance[el].options.onUploadProgress.call(this);
-					}
+					if (typeof instance[el].options.onUploadProgress === 'function') instance[el].options.onUploadProgress.call(this);
 				});
 			} else {
 				instance[el].overallProgressBar.fadeIn("slow", "linear");
@@ -199,63 +176,7 @@
 					instance[el].formData.append(instance[el].options.inputName + "[]", value);
 				});
 
-				$.ajax({
-					url: instance[el].options.url,
-					type: instance[el].options.formMethod,
-					data: instance[el].formData,
-					cache: false,
-					contentType: false,
-					processData: false,
-					accepts: "json",
-					success: function (data, status, xhr) {
-						var response = JSON.parse(data);
-
-						if (response.error) {
-							instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-							instance[el].overallProgressBar.find(".progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
-							instance[el].overallStatus.fadeIn("slow", "linear");
-							instance[el].overallStatus.find(".alert-danger").fadeIn("slow", "linear").html("<strong>Error:</strong><br />" + response.error);
-						} else {
-							instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-							instance[el].overallProgressBar.find(".progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
-							instance[el].overallStatus.fadeIn("slow", "linear");
-							instance[el].overallStatus.find(".alert-success").fadeIn("slow", "linear");
-						}
-
-						if (typeof instance[el].options.onUploadSuccess === 'function') {
-							instance[el].options.onUploadSuccess.call(this);
-						}
-					},
-					error: function (xhr, status, err) {
-						instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-						instance[el].overallProgressBar.find(".progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
-						instance[el].overallStatus.fadeIn("slow", "linear");
-						instance[el].overallStatus.find(".alert-danger").fadeIn("slow", "linear").html(status + ": " + err.message);
-
-						if (typeof instance[el].options.onUploadError === 'function') {
-							instance[el].options.onUploadError.call(this);
-						}
-					},
-					xhr: function () {
-						var myXhr = $.ajaxSettings.xhr();
-
-						if(myXhr.upload){
-							myXhr.upload.addEventListener('progress', function (e) {
-								if(e.lengthComputable){
-									var percentComplete = e.loaded / e.total;
-									
-									instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", Math.round(percentComplete * 100)).css("width", Math.round(percentComplete * 100) + "%");
-									
-									if (typeof instance[el].options.onUploadProgress === 'function') {
-										instance[el].options.onUploadProgress.call(this);
-									}
-								}
-							});
-						}
-
-						return myXhr;
-					}
-				});
+				procAjax(el, "");
 			}
 
 			instance[el].btnAdd.fadeOut("slow", "linear");
@@ -263,10 +184,14 @@
 			instance[el].btnCancel.fadeOut("slow", "linear");
 			instance[el].btnReset.delay(600).fadeIn("slow", "linear");
 
-            if (typeof instance[el].options.onUploadComplete === 'function') {
-				instance[el].options.onUploadComplete.call(this);
-            }
+            if (typeof instance[el].options.onUploadComplete === 'function') instance[el].options.onUploadComplete.call(this);
 		},
+		/**
+		 * [removeFile description]
+		 * @param  {[type]} el [description]
+		 * @param  {[type]} id [description]
+		 * @return {[type]}    [description]
+		 */
 		removeFile: function (el, id) {
 			if (instance[el].arrayLength <= 1) {
 				methods.resetUpload(el);
@@ -280,10 +205,13 @@
 				instance[el].arrayLength = --instance[el].arrayLength;
 			}
 
-			if (typeof instance[el].options.onFileRemoved === 'function') {
-				instance[el].options.onFileRemoved.call(this);
-			}
+			if (typeof instance[el].options.onFileRemoved === 'function') instance[el].options.onFileRemoved.call(this);
 		},
+		/**
+		 * [resetUpload description]
+		 * @param  {[type]} el [description]
+		 * @return {[type]}    [description]
+		 */
 		resetUpload: function (el) {
 			instance[el].filePreviewTable.find("tbody").empty();
 			instance[el].form[0].reset();
@@ -303,13 +231,16 @@
 			instance[el].overallProgressBar.fadeOut("slow", "linear");
 			instance[el].btnReset.fadeOut("slow", "linear");
 
-			if (typeof instance[el].options.onUploadReset === 'function') {
-				instance[el].options.onUploadReset.call(this);
-			}
+			if (typeof instance[el].options.onUploadReset === 'function') instance[el].options.onUploadReset.call(this);
 		}
 	};
 
-	function startup (el) {
+	/**
+	 * [startup description]
+	 * @param  {[type]} el [description]
+	 * @return {[type]}    [description]
+	 */
+	public function startup (el) {
 		instance[el].wrapper = $('#' + el);
 
 		availableFileTypes["archives"] = ["zip", "7z", "gz", "gzip", "rar", "tar"];
@@ -353,19 +284,99 @@
 
 			return;
 		}
-			
-		if (testBrowser && instance[el].options.forceFallback === false) {
-			formStructure(el);
-		} else {
-			fallbackFormStructure(el);
+
+		if (testBrowser && instance[el].options.forceFallback === false) formStructure(el);
+		else fallbackFormStructure(el);
+
+		if (typeof instance[el].options.onInit === 'function') instance[el].options.onInit.call(this);
+	}
+
+	/**
+	 * [buildFileTypes description]
+	 * @param  {[type]} el [description]
+	 * @return {[type]}    [description]
+	 */
+	public function buildFileTypes (el) {
+		$.each(instance[el].options.fileTypes, function (key, value) {
+			if ($.isNumeric(key))  instance[el].options.fileTypes[value] = availableFileTypes[value];
+			else if (!$.isNumeric(key) && $.isEmptyObject(value)) instance[el].options.fileTypes[key] = availableFileTypes[key];
+		});
+
+		return;
+	}
+
+	/**
+	 * [debug description]
+	 * @param  {[type]} el   [description]
+	 * @param  {[type]} type [description]
+	 * @return {[type]}      [description]
+	 */
+	public function debug (el, type) {
+		var alertMsg, alertWrapper = $('<div class="alert alert-danger" role="alert"></div>');
+
+		switch (type) {
+			case 'method':
+				alertMsg = "The passed method " + name + " is not a valid method. Please check the configuration.";
+
+				break;
+			case 'fontAwesome':
+				alertMsg = "The Font Awesome CSS is not available within the head of the website and is a required unless the option showThumb is set to false.";
+
+				break;
+			case 'url':
+				alertMsg = "The URL provided in the configuration is not a valid URL.";
+
+				break;
+			case 'fallbackUrl':
+				alertMsg = "The Fallback URL provided in the configuration is not a valid URL.";
+
+				break;
+			case 'formMethod':
+				alertMsg = "The Form Method provided in the configuration is not a valid, please choose either get or post in the configuration.";
+
+				break;
+			case 'bootstrap':
+				alertMsg = "The Twitter Bootstrap API is not available on the current page. Please check to make sure all the dependencies are in place.";
+
+				break;
+			default:
+				alertMsg = "An unknown error occured.";
+
+				break;
 		}
 
-		if (typeof instance[el].options.onInit === 'function') {
-			instance[el].options.onInit.call(this);
+		if (instance[el].options.debug === false && (window.console && window.console.error)) window.console.error(alertMsg);
+		else if (instance[el].options.debug === true) {
+			alertWrapper.append(alertMsg);
+			wrapper.append(alertWrapper);
 		}
 	}
 
-	function formStructure (el) {
+	/**
+	 * [isUrlValid description]
+	 * @param  {[type]}  url [description]
+	 * @return {Boolean}     [description]
+	 */
+	public function isUrlValid (url) {
+		return /((http(s)?|ftp(s)?):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/.test(url);
+	}
+
+	/**
+	 * [testBrowser description]
+	 * @return {[type]} [description]
+	 */
+	public function testBrowser () {
+		var xhr = new XMLHttpRequest();
+
+		return !! (window.FormData && xhr && ('upload' in xhr) && ('onprogress' in xhr.upload));
+	}
+
+	/**
+	 * [formStructure description]
+	 * @param  {[type]} el [description]
+	 * @return {[type]}    [description]
+	 */
+	public function formStructure (el) {
 		instance[el].formData = new FormData();
 
 		instance[el].form = $('<form action="' + instance[el].options.url + '" method="' + instance[el].options.formMethod + '" enctype="multipart/form-data"></form>');
@@ -408,7 +419,12 @@
 		});
 	}
 
-	function fallbackFormStructure (el) {
+	/**
+	 * [fallbackFormStructure description]
+	 * @param  {[type]} el [description]
+	 * @return {[type]}    [description]
+	 */
+	public function fallbackFormStructure (el) {
 		instance[el].form = $('<form action="' + (instance[el].options.fallbackUrl ? instance[el].options.fallbackUrl : instance[el].options.url) + '" method="' + instance[el].options.formMethod + '" enctype="multipart/form-data"></form>');
 		instance[el].btnAdd = $('<div class="input-group"><span class="input-group-btn"><span class="btn btn-success fileupload-fallback-add"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add Files&hellip; <input type="file" name="' + instance[el].options.inputName + '" ' + (instance[el].options.multiFile === true ? 'multiple="multiple"' : void 0) + '></span></span><input type="text" class="form-control" readonly></div>');
 		instance[el].btnStart = $('<div class="form-group"><button type="submit" class="btn btn-warning fileupload-fallback-start"><i class="glyphicon glyphicon-upload"></i>&nbsp;<span>Start upload</span></button><button type="reset" class="btn btn-primary fileupload-fallback-reset"><i class="glyphicon glyphicon-repeat"></i>&nbsp;Reset</button></div>');
@@ -422,7 +438,7 @@
 		}
 
 		instance[el].wrapper.append(instance[el].form);
-				
+
 		instance[el].btnAdd.on('change', '.fileupload-fallback-add input[type=file]', function () {
 			var input, numFiles, label;
 
@@ -439,13 +455,75 @@
 			input = $(this).parents('.input-group').find('input[type=text]');
 			log = numFiles > 1 ? numFiles + ' files selected' : label;
 
-			if(input.length) {
-				input.val(log);
-			}
+			if (input.length) input.val(log);
         });
 	}
 
-	function genThumb (el, file, fileType, fileExt) {
+	/**
+	 * [isValidFileType description]
+	 * @param  {[type]}  el      [description]
+	 * @param  {[type]}  fileExt [description]
+	 * @return {Boolean}         [description]
+	 */
+	public function isValidFileType (el, fileExt) {
+		var result = false;
+
+		$.each(instance[el].options.fileTypes, function (type, extensions) {
+			if ($.inArray(fileExt, extensions) >= 0) {
+				result = true;
+
+				return false;
+			}
+		});
+
+		return result;
+	}
+
+	/**
+	 * [getFileType description]
+	 * @param  {[type]} el      [description]
+	 * @param  {[type]} fileExt [description]
+	 * @return {[type]}         [description]
+	 */
+	public function getFileType (el, fileExt) {
+		var fileType;
+
+		$.each(instance[el].options.fileTypes, function (type, extensions) {
+			if ($.inArray(fileExt, extensions) >= 0) {
+				fileType = type;
+
+				return false;
+			}
+		});
+
+		return fileType;
+	}
+
+	/**
+	 * [checkFile description]
+	 * @param  {[type]} el   [description]
+	 * @param  {[type]} file [description]
+	 * @return {[type]}      [description]
+	 */
+	public function checkFile (el, file) {
+		var test = [];
+
+		$.each(instance[el].arrayFiles, function (key, value) {
+			test.push(value.name);
+		});
+
+		return $.inArray(file.name, test);
+	}
+
+	/**
+	 * [genThumb description]
+	 * @param  {[type]} el       [description]
+	 * @param  {[type]} file     [description]
+	 * @param  {[type]} fileType [description]
+	 * @param  {[type]} fileExt  [description]
+	 * @return {[type]}          [description]
+	 */
+	public function genThumb (el, file, fileType, fileExt) {
 		var thumb;
 
 		switch (fileType) {
@@ -527,118 +605,100 @@
 		return thumb;
 	}
 
-	function checkFile (el, file) {
-		var test = [];
+	/**
+	 * [procAjax description]
+	 * @param  {[type]} el  [description]
+	 * @param  {[type]} key [description]
+	 * @return {[type]}     [description]
+	 */
+	public function procAjax (el, key) {
+		$.ajax({
+			url: instance[el].options.url,
+			type: instance[el].options.formMethod,
+			data: instance[el].formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			accepts: "json",
+			success: function(data, status, xhr) {
+				var response = JSON.parse(data);
 
-		$.each(instance[el].arrayFiles, function (key, value) {
-			test.push(value.name);
-		});
+				if (response.error) {
+					if (instance[el].options.multiUpload === false) {
+						$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+						$("#" + key + " .fileupload-progress .progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
+						$("#" + key + " .alert-danger").fadeIn("slow", "linear").html("<strong>Error:</strong><br />" + response.error);
+					} else {
+						instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+						instance[el].overallProgressBar.find(".progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
+						instance[el].overallStatus.fadeIn("slow", "linear");
+						instance[el].overallStatus.find(".alert-danger").fadeIn("slow", "linear").html("<strong>Error:</strong><br />" + response.error);
+					}
+				} else {
+					if (instance[el].options.multiUpload === false) {
+						$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+						$("#" + key + " .fileupload-progress .progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
+						$("#" + key + " .alert-success").fadeIn("slow", "linear");
+					} else {
+						instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+						instance[el].overallProgressBar.find(".progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
+						instance[el].overallStatus.fadeIn("slow", "linear");
+						instance[el].overallStatus.find(".alert-success").fadeIn("slow", "linear");
+					}
+				}
 
-		return $.inArray(file.name, test);
-	}
+				if (typeof instance[el].options.onUploadSuccess === 'function') instance[el].options.onUploadSuccess.call(this);
+			},
+			error: function (xhr, status, err) {
+				if (instance[el].options.multiUpload === false) {
+					$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+					$("#" + key + " .fileupload-progress .progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
+					$("#" + key + " .alert-danger").fadeIn("slow", "linear").html(status + ": " + err.message);
+				} else {
+					instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+						instance[el].overallProgressBar.find(".progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
+						instance[el].overallStatus.fadeIn("slow", "linear");
+						instance[el].overallStatus.find(".alert-danger").fadeIn("slow", "linear").html(status + ": " + err.message);
+				}
 
-	function buildFileTypes (el) {
-		$.each(instance[el].options.fileTypes, function (key, value) {
-			if ($.isNumeric(key)) {
-				instance[el].options.fileTypes[value] = availableFileTypes[value];
-			} else if (!$.isNumeric(key) && $.isEmptyObject(value)) {
-				instance[el].options.fileTypes[key] = availableFileTypes[key];
+				if (typeof instance[el].options.onUploadError === 'function')  instance[el].options.onUploadError.call(this);
+			},
+			xhr: function () {
+				var myXhr = $.ajaxSettings.xhr();
+
+				if (myXhr.upload) {
+					myXhr.upload.addEventListener('progress', function (e) {
+						if (e.lengthComputable) {
+							var percentComplete = e.loaded / e.total;
+
+							if (instance[el].options.multiUpload === false) $("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", Math.round(percentComplete * 100)).css("width", Math.round(percentComplete * 100) + "%");
+							else instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", Math.round(percentComplete * 100)).css("width", Math.round(percentComplete * 100) + "%");
+
+							if (typeof instance[el].options.onUploadProgress === 'function') instance[el].options.onUploadProgress.call(this);
+						}
+					});
+				}
+
+				return myXhr;
 			}
 		});
-
-		return;
 	}
 
-	function getFileType (el, fileExt) {
-		var fileType;
-
-		$.each(instance[el].options.fileTypes, function (type, extensions) {
-			if ($.inArray(fileExt, extensions) >= 0) {
-				fileType = type;
-
-				return false;
-			}
-		});
-
-		return fileType;
-	}
-
-	function isValidFileType (el, fileExt) {
-		var result = false;
-
-		$.each(instance[el].options.fileTypes, function (type, extensions) {
-			if ($.inArray(fileExt, extensions) >= 0) {
-				result = true;
-
-				return false;
-			}
-		});
-
-		return result;
-	}
-
-	function testBrowser () {
-		var xhr = new XMLHttpRequest();
-
-		return !! (window.FormData && xhr && ('upload' in xhr) && ('onprogress' in xhr.upload));
-	}
-
-	function isUrlValid (url) {
-		return /((http(s)?|ftp(s)?):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/.test(url);
-	}
-
-	function debug (el, type) {
-		var alertMsg, alertWrapper = $('<div class="alert alert-danger" role="alert"></div>');
-
-		switch (type) {
-			case 'method':
-				alertMsg = "The passed method " + name + " is not a valid method. Please check the configuration.";
-
-				break;
-			case 'fontAwesome':
-				alertMsg = "The Font Awesome CSS is not available within the head of the website and is a required unless the option showThumb is set to false.";
-
-				break;
-			case 'url':
-				alertMsg = "The URL provided in the configuration is not a valid URL.";
-					
-				break;
-			case 'fallbackUrl':
-				alertMsg = "The Fallback URL provided in the configuration is not a valid URL.";
-					
-				break;
-			case 'formMethod':
-				alertMsg = "The Form Method provided in the configuration is not a valid, please choose either get or post in the configuration.";
-					
-				break;
-			case 'bootstrap':
-				alertMsg = "The Twitter Bootstrap API is not available on the current page. Please check to make sure all the dependencies are in place.";
-					
-				break;
-			default:
-				alertMsg = "An unknown error occured.";
-					
-				break;
-		}
-
-		if (instance[el].options.debug === false && (window.console && window.console.error)) {
-			window.console.error(alertMsg);
-		} else if (instance[el].options.debug === true) {
-			alertWrapper.append(alertMsg);
-			wrapper.append(alertWrapper);
-		}
-	}
-
+	/**
+	 * [bootstrapFileUpload description]
+	 * @param  {[type]} method [description]
+	 * @return {[type]}        [description]
+	 */
 	$.bootstrapFileUpload = $.fn.bootstrapFileUpload = function (method) {
-		if (methods[method]) {
-			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-		} else if (typeof method === 'object' || !method) {
-			methods.init.apply(this, arguments);
-		} else {
-			window.console.error("The passed method " + method + " is not a valid method. Please check the configuration.");
-		}
+		if (methods[method]) return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		else if (typeof method === 'object' || !method) methods.init.apply(this, arguments);
+		else window.console.error("The passed method " + method + " is not a valid method. Please check the configuration.");
 	};
 
+	/**
+	 * [defaults description]
+	 * @type {Object}
+	 */
 	$.fn.bootstrapFileUpload.defaults = {
 		url: null,
 		fallbackUrl: null,

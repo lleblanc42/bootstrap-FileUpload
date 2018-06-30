@@ -92,9 +92,9 @@ Below is a detailed list of all of the available options to configure and custom
 | url | null | a URL | The URL the plugin will send the AJAX request too |
 | fallbackUrl | null | a URL | A seperate URL the script can use if you require a seperate processor to handle the different response (optional) |
 | formMethod | 'post' | 'post' or 'get' | The method of which the form will be submitted to the processor |
-| multiFile | true | true or false | Allows multiple file uploads when true |
+| multiFile | true | true or false | Allows multiple file uploads when true - potential for file upload limitations on server end |
 | multiUpload | false | true or false | Uploads all the files at once when true, otherwise uploads the files one at a time to the processor |
-| inputName | 'files' | string | Name of the file input intended for use of the processor |
+| inputName | 'files' | string | Name of the file input field intended for use of the processor |
 | hiddenInput | null | null or string | Options to include additional hidden fields to pass to the processor in JSON format |
 | forceFallback | false | true or false | Forces the fallback option of the plugin if set to true which won't allow multiple file uploads or thumbnail previews |
 | maxSize | 5 | number | Limits the max filesize of each file to the number set in megabytes |
@@ -239,17 +239,23 @@ _(Coming soon)_
 - [x] ~~Check if the file uploaded is a file or graphic to regulate whether or not it gets a thumbnail or an icon - v0.5.0 Release~~
 - [x] ~~Add support for methods - v0.6.0 Release~~
 - [x] ~~Further test and add additional support for callbacks - v0.6.0 Release~~
+- [x] ~~Detailed comments in the source code (apologize for lack therof) - v0.7.0 Release~
 - [ ] Add support for multiple acceptable returns from processor (not just JSON) - v0.7.0 Release
 - [ ] Add a GH Pages repo - v0.7.0 Release
 - [ ] Add support for custom templates - v0.8.0 Release
 - [ ] Add drag and drop support - v0.9.0 Release
-- [ ] Detailed comments in the source code (apologize for lack therof) - v1.0.0 Release
 - [ ] Cleanup and fully stabalize the code - v1.0.0 Release
 - [ ] Comprehensive testing of jQuery library compatibility - v1.0.0 Release
 - [ ] Include proper QUnit testing - v1.0.0 Release
 - [ ] Add support for additional libraries - v1.1.0 Release
 
 ## Release History
+v0.7.0
+* Did some moving around of private functions, now is ordered based on time of first use
+* Made centralized private function to deal with ajax calls
+* Added basic comments/documentation within source code
+* General code cleanup
+
 v0.6.0
 * Complete overhall of the entire plugin
 * Established a new structural design pattern
