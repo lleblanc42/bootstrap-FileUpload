@@ -86,7 +86,7 @@
 						row = '<tr class="fileupload-previewrow thumb row" id="' + fileName + '"><td class="col-lg-1">' + thumb + '</td><td class="col-lg-9">' + file.name + '</td><td class="col-lg-2"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
 					}
 				} else {
-					if (options.multiUpload === false) {
+					if (instance[el].options.multiUpload === false) {
 						row = '<tr class="fileupload-previewrow no-thumb row" id="' + fileName + '"><td class="col-lg-5">' + file.name + '</td><td class="col-lg-6">' + progressBar + '</td><td class="col-lg-1"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
 					} else {
 						row = '<tr class="fileupload-previewrow no-thumb row" id="' + fileName + '"><td class="col-lg-10">' + file.name + '</td><td class="col-lg-2"><button class="btn btn-danger fileupload-remove" value="' + fileName + '"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;<span>Remove File</span></button></td></tr>';
@@ -313,7 +313,7 @@
 			return;
 		}
 
-		if (!$("link[href$='font-awesome.css']").length && !$("link[href$='font-awesome.min.css']").length && instance[el].options.showThumb === true) {
+		if (!$("link[href$='font-awesome.css']").length && !$("link[href$='font-awesome.min.css']").length && !$("link[href$='fontawesome-pro.css']").length && !$("link[href$='fontawesome-pro.min.css']").length && instance[el].options.showThumb === true) {
 			debug(el, "fontAwesome");
 
 			return;
@@ -433,66 +433,51 @@
 
 		switch (fileType) {
 			case 'archives':
-				thumb = '<i class="fa fa-file-archive-o fa-5x"></i>';
-
+				thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "far fa-file-archive" : "fa fa-file-archive-o") + ' fa-5x"></i>';
 				break;
 			case 'audio':
-				thumb = '<i class="fa fa-file-audio-o fa-5x"></i>';
-
+				thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "far fa-file-audio" : "fa fa-file-audio-o") + ' fa-5x"></i>';
 				break;
 			case 'files':
 				switch (fileExt) {
 					case 'doc':
-						thumb = '<i class="fa fa-file-word-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-word" : "fa fa-file-word-o") + ' fa-5x"></i>';
 						break;
 					case 'docx':
-						thumb = '<i class="fa fa-file-word-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-word" : "fa fa-file-word-o") + ' fa-5x"></i>';
 						break;
 					case 'dotx':
-						thumb = '<i class="fa fa-file-word-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-word" : "fa fa-file-word-o") + ' fa-5x"></i>';
 						break;
 					case 'docm':
-						thumb = '<i class="fa fa-file-word-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-word" : "fa fa-file-word-o") + ' fa-5x"></i>';
 						break;
 					case 'ppt':
-						thumb = '<i class="fa fa-file-powerpoint-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-powerpoint" : "fa fa-file-powerpoint-o") + ' fa-5x"></i>';
 						break;
 					case 'pptm':
-						thumb = '<i class="fa fa-file-powerpoint-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-powerpoint" : "fa fa-file-powerpoint-o") + ' fa-5x"></i>';
 						break;
 					case 'pptx':
-						thumb = '<i class="fa fa-file-powerpoint-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-powerpoint" : "fa fa-file-powerpoint-o") + ' fa-5x"></i>';
 						break;
 					case 'pdf':
-						thumb = '<i class="fa fa-file-pdf-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-pdf" : "fa fa-file-pdf-o") + ' fa-5x"></i>';
 						break;
 					case 'xls':
-						thumb = '<i class="fa fa-file-excel-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-excel" : "fa fa-file-excel-o") + ' fa-5x"></i>';
 						break;
 					case 'csv':
-						thumb = '<i class="fa fa-file-excel-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-excel" : "fa fa-file-excel-o") + ' fa-5x"></i>';
 						break;
 					case 'xlsm':
-						thumb = '<i class="fa fa-file-excel-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-excel" : "fa fa-file-excel-o") + ' fa-5x"></i>';
 						break;
 					case 'xlsx':
-						thumb = '<i class="fa fa-file-excel-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-excel" : "fa fa-file-excel-o") + ' fa-5x"></i>';
 						break;
 					default:
-						thumb = '<i class="fa fa-file-o fa-5x"></i>';
-
+						thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file" : "fa fa-file-o") + ' fa-5x"></i>';
 						break;
 				}
 
@@ -502,8 +487,7 @@
 
 				break;
 			case 'video':
-				thumb = '<i class="fa fa-file-movie-o fa-5x"></i>';
-
+				thumb = '<i class="' + (instance[el].options.FaVersion > "4" ? "fas fa-file-video" : "fa fa-file-video-o") + ' fa-5x"></i>';
 				break;
 		}
 
@@ -644,6 +628,7 @@
 			video: []
 		},
 		debug: true,
+		FaVersion: "5",
 		onInit: function () {},
 		onFileAdded: function () {},
 		onFileRemoved: function () {},
