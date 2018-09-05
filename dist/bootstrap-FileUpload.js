@@ -122,9 +122,9 @@
 					$.ajax({
 						url: instance[el].options.url,
 						type: instance[el].options.formMethod,
-						data: instance[el].formData,
+						data: JSON.stringify({"content": instance[el].formData}),
 						cache: false,
-						contentType: false,
+						contentType: "application/json",
 						processData: false,
 						accepts: "json",
 						success: function(data, status, xhr) {
@@ -195,9 +195,9 @@
 				$.ajax({
 					url: instance[el].options.url,
 					type: instance[el].options.formMethod,
-					data: instance[el].formData,
+					data: JSON.stringify({"content": instance[el].formData}),
 					cache: false,
-					contentType: false,
+					contentType: "application/json",
 					processData: false,
 					accepts: "json",
 					success: function (data, status, xhr) {
