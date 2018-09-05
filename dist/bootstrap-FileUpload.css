@@ -1,7 +1,15 @@
 /*
  * bootstrap-FileUpload.css
- * @version: v0.6.0
+ * @version: v0.7.0
  * @author: Luke LeBlanc
+ *
+ * This plugin is very lightweight, highly customizable, easy to use,
+ * extremely easy to integrate into any website with minimal dependancies
+ * and of course cross compatible. It includes support for mobile devices
+ * with fallback options to a regular customized form input field. It has
+ * the ability to upload multiple files at once and provide thumbnail
+ * previews. All it needs is Twitter Bootstrap V3 and the latest version
+ * of jQuery!
  *
  * Copyright (c) 2016 Luke LeBlanc
  *
