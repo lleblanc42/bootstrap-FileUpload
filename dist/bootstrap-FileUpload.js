@@ -122,22 +122,32 @@
 					$.ajax({
 						url: instance[el].options.url,
 						type: instance[el].options.formMethod,
-						data: instance[el].formData,
+						data: JSON.stringify({"content": instance[el].formData}),
 						cache: false,
-						contentType: false,
+						contentType: "application/json",
 						processData: false,
 						accepts: "json",
 						success: function(data, status, xhr) {
-							var response = JSON.parse(data);
+							if(data.match('\{.*\:\{.*\:.*\}\}'))
+							{
+							   var response = JSON.parse(data);
 
-							if (response.error) {
-								$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-								$("#" + key + " .fileupload-progress .progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
-								$("#" + key + " .alert-danger").fadeIn("slow", "linear").html("<strong>Error:</strong><br />" + response.error);
-							} else {
-								$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-								$("#" + key + " .fileupload-progress .progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
-								$("#" + key + " .alert-success").fadeIn("slow", "linear");
+							   if (response.error) {
+								  $("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+								  $("#" + key + " .fileupload-progress .progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
+								  $("#" + key + " .alert-danger").fadeIn("slow", "linear").html("<strong>Error:</strong><br />" + response.error);
+							   } else {
+								  $("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+								  $("#" + key + " .fileupload-progress .progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
+								  $("#" + key + " .alert-success").fadeIn("slow", "linear");
+							   }
+						    }
+							else
+							{
+							   $("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+							   $("#" + key + " .fileupload-progress .progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
+							   $("#" + key + " .alert-success").fadeIn("slow", "linear");
+							   console.log('response: ' + data);
 							}
 
 							if (typeof instance[el].options.onUploadSuccess === 'function') {
@@ -185,24 +195,35 @@
 				$.ajax({
 					url: instance[el].options.url,
 					type: instance[el].options.formMethod,
-					data: instance[el].formData,
+					data: JSON.stringify({"content": instance[el].formData}),
 					cache: false,
-					contentType: false,
+					contentType: "application/json",
 					processData: false,
 					accepts: "json",
 					success: function (data, status, xhr) {
-						var response = JSON.parse(data);
+						if(data.match('\{.*\:\{.*\:.*\}\}'))
+						{
+						   var response = JSON.parse(data);
 
-						if (response.error) {
-							instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-							instance[el].overallProgressBar.find(".progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
-							instance[el].overallStatus.fadeIn("slow", "linear");
-							instance[el].overallStatus.find(".alert-danger").fadeIn("slow", "linear").html("<strong>Error:</strong><br />" + response.error);
-						} else {
-							instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
-							instance[el].overallProgressBar.find(".progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
-							instance[el].overallStatus.fadeIn("slow", "linear");
-							instance[el].overallStatus.find(".alert-success").fadeIn("slow", "linear");
+						   if (response.error) {
+							  instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+							  instance[el].overallProgressBar.find(".progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
+							  instance[el].overallStatus.fadeIn("slow", "linear");
+							  instance[el].overallStatus.find(".alert-danger").fadeIn("slow", "linear").html("<strong>Error:</strong><br />" + response.error);
+						   } else {
+							  instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+							  instance[el].overallProgressBar.find(".progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
+							  instance[el].overallStatus.fadeIn("slow", "linear");
+							  instance[el].overallStatus.find(".alert-success").fadeIn("slow", "linear");
+						   }
+						}
+						else
+						{
+						   instance[el].overallProgressBar.find(".progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
+						   instance[el].overallProgressBar.find(".progress-bar-success").attr("aria-valuenow", 100).css("width", "100%");
+						   instance[el].overallStatus.fadeIn("slow", "linear");
+						   instance[el].overallStatus.find(".alert-success").fadeIn("slow", "linear");
+                           console.log('response' + data);						   
 						}
 
 						if (typeof instance[el].options.onUploadSuccess === 'function') {
