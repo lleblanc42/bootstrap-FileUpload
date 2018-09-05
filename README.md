@@ -16,19 +16,21 @@ Before using this plugin, you need to have the following two dependencies in you
 * Twitter Bootstrap (v3)
 * Latest 1.x version of jQuery
 
+Optional dependency:
+* FontAwesome - used for file icons
+
 ### The HTML/CSS
 
-Point to the plugin in the HTML in either the head or just before the ending body tag (the preferred method when using HTML5 Bootstrap) in your web page will the following line of code:
+Include the jQuery file in either the head of the HTML document or near the bottom of the body:
 
 ```html
 <script src="js/bootstrap-FileUpload.min.js"></script>
 ```
 
-Make sure to include the CSS for the plugin and include the Font Awesome CSS for file icons! Make sure to copy the fonts folder to the root of your website in order to use Font Awesome.
+Make sure to include the CSS for the plugin:
 
 ```html
 <link rel="stylesheet" type="text/css" href="css/bootstrap-FileUpload.min.css" />
-<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 ```
 
 Before you initialize the plugin, you must include the wrapper in your document with the class of fileupload-wrapper. Just create another div that you can name this whatever you'd like inside of the wrapper, and make sure the contents of the div is empty.
@@ -37,7 +39,7 @@ Before you initialize the plugin, you must include the wrapper in your document 
 <div class="fileupload-wrapper"><div id="myUpload"></div></div>
 ```
 
-The plugin allows for multiple file uploads on one page. You can either add multiple div inside the fileupload-wrapper div, or create multiple fileupload-wrapper that wrap around your upload "shell".
+The plugin allows for multiple file uploads on one page. You can either add multiple divs inside the fileupload-wrapper div, or create multiple fileupload-wrapper's that wrap around your upload "shell".
 
 ```html
 <div class="fileupload-wrapper"><div id="myUpload"></div><div id="myUpload2"></div></div>
@@ -62,6 +64,8 @@ $("#myUpload2").bootstrapFileUpload({
 });
 ```
 Make sure to change the url option to point to the web page that will properly process the form information. Currently, this script only supports JSON as a return type from the processor.
+
+For a better user experience with thumbnails, include Font Awesome in your HTML and enable the useFontAwesome option when initializing the plugin.
 
 ### File Type Configuration
 
@@ -100,14 +104,16 @@ Below is a detailed list of all of the available options to configure and custom
 | maxSize | 5 | number | Limits the max filesize of each file to the number set in megabytes |
 | maxFiles | null | null or number | Limits the number of files the user is able to select for uploading |
 | showThumb | true | true or false | Creates a thumbnail of the image selected or displays the file icon if set to true |
+| useFontAwesome | false | true or false | Enables use of the font awesome library for file icons |
+| fontAwesomeVer | false | false or version number | The script automatically assigns it if detected, used as an override |
 | thumbWidth | 80 | number | Changes the width of the thumbnail to the set number in pixels |
 | thumbHeight | 80 | number | Changes the height of the thumbnail to the set number in pixels |
 | fileTypes | please see the list of file types above | array | Limits the types of files that can be uploaded as well as accepted extensions |
-| debug | true | true or false | In the case of misconfiguration, this switch can either display a message to the user if true was set, or display a message in the console log. |
+| debug | false | true or false | In the case of misconfiguration, this switch can either display a message to the user if true was set, or display a message in the console log. |
 
 ## Callbacks
 
-Callbacks can be useful if you wish to perform an additional task after a default processed has completed. There is a callback available after almost every action throughout the users experience.
+Callbacks can be useful if you wish to perform an additional task after a default process has completed. There is a callback available after almost every action throughout the users experience.
 
 Callbacks are declared with the options. You can declare as many callbacks as you wish and for multiple upload forms. An example is available under the table.
 
@@ -226,10 +232,10 @@ $("#reset").on('click', function (e) {
 });
 ```
 
-## Examples
+## Demo
 _(Coming soon)_
 
-## Feature Release Plans (9 out of 18)
+## Feature Release Plans (12 out of 20)
 - [x] ~~Check if site utilizes Twitter Bootstrap - v0.2.0 Release~~
 - [x] ~~Add debug mode - v0.2.0 Release~~
 - [x] ~~Add URL verification support - v0.2.0 Release~~
@@ -240,10 +246,12 @@ _(Coming soon)_
 - [x] ~~Add support for methods - v0.6.0 Release~~
 - [x] ~~Further test and add additional support for callbacks - v0.6.0 Release~~
 - [x] ~~Detailed comments in the source code (apologize for lack therof) - v0.7.0 Release~
-- [ ] Add support for multiple acceptable returns from processor (not just JSON) - v0.7.0 Release
-- [ ] Add a GH Pages repo - v0.7.0 Release
+- [x] ~~Full Font Awesome support - v0.7.0 Release~~
+- [x] ~~Add better support for accurate file sizes - v0.7.0 Release~~
 - [ ] Add support for custom templates - v0.8.0 Release
+- [ ] Add support for language files - v0.8.0 Release
 - [ ] Add drag and drop support - v0.9.0 Release
+- [ ] Add a GH Pages repo - v1.0.0 Release
 - [ ] Cleanup and fully stabalize the code - v1.0.0 Release
 - [ ] Comprehensive testing of jQuery library compatibility - v1.0.0 Release
 - [ ] Include proper QUnit testing - v1.0.0 Release
@@ -251,10 +259,14 @@ _(Coming soon)_
 
 ## Release History
 v0.7.0
-* Did some moving around of private functions, now is ordered based on time of first use
+* Major overhaul on structure and ordering of functions/elements
+* Reworked how Font Awesome was used and increased support for both 4 and 5
+* Made Font Awesome fully optional
 * Made centralized private function to deal with ajax calls
 * Added basic comments/documentation within source code
+* Added better support for accurate file sizes
 * General code cleanup
+* Bug fixes
 
 v0.6.0
 * Complete overhall of the entire plugin

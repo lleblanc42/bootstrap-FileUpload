@@ -6,19 +6,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     // Metadata.
     pkg: grunt.file.readJSON('bootstrap-FileUpload.jquery.json'),
-    banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
-      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-      ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
     // Task configuration.
     clean: {
       files: ['dist']
     },
     concat: {
       options: {
-        banner: '<%= banner %>',
-        stripBanners: true
+        separator: ';'
       },
       dist: {
         src: ['src/<%= pkg.name %>.js'],
@@ -27,7 +21,7 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        banner: '<%= banner %>'
+        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> */'
       },
       dist: {
         src: '<%= concat.dist.dest %>',
@@ -35,15 +29,16 @@ module.exports = function(grunt) {
       },
     },
     jshint: {
+      files: ['Gruntfile.js', 'src/<%= pkg.name %>.js'],
       options: {
-        jshintrc: true
-      },
-      gruntfile: {
-        src: 'Gruntfile.js'
-      },
-      src: {
-        src: ['src/<%= pkg.name %>.js']
-      },
+        // options here to override JSHint defaults
+        globals: {
+          jQuery: true,
+          console: true,
+          module: true,
+          document: true
+        }
+      }
     },
     watch: {
       gruntfile: {
