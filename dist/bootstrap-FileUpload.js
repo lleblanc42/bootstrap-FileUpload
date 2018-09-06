@@ -174,10 +174,6 @@
 					$("#" + key + " .fileupload-progress .progress-bar-striped").fadeIn("slow", "linear");
 
 					procAjax(el, key);
-
-					if (typeof instance[el].options.onUploadProgress === 'function') {
-						instance[el].options.onUploadProgress.call(this);
-					}
 				});
 			} else {
 				instance[el].overallProgressBar.fadeIn("slow", "linear");
@@ -699,7 +695,7 @@
 			success: function(data, status, xhr) {
 				var response = (data.match('\{.*\:\{.*\:.*\}\}') ? JSON.parse(data) : '');
 
-				if (response.error || !data.match('\{.*\:\{.*\:.*\}\}')) {
+				if (response.error || response === '') {
 					if (instance[el].options.multiUpload === false) {
 						$("#" + key + " .fileupload-progress .progress-bar-striped").attr("aria-valuenow", 0).css("width", "0%");
 						$("#" + key + " .fileupload-progress .progress-bar-danger").attr("aria-valuenow", 100).css("width", "100%");
